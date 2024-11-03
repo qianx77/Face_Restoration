@@ -1,0 +1,7 @@
+__pycache__
+.eggs
+.vscode
+face_restoration\weights\*
+face_restoration.egg-info
+experiments\pretrained_models
+results
