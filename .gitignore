@@ -11,3 +11,4 @@ experiments/pretrained_models/GFPGANv1.4.pth
 experiments/pretrained_models/GPEN.pth
 face_restoration/weights/detection_Resnet50_Final.pth
 face_restoration/weights/parsing_parsenet.pth
+experiments/onnx
