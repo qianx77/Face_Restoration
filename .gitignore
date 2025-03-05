@@ -1,14 +1,8 @@
 __pycache__
 .eggs
 .vscode
-face_restoration\weights\*
 face_restoration.egg-info
-experiments\pretrained_models\*
 results
-experiments/pretrained_models/CodeFormer.pth
-experiments/pretrained_models/GFPGANv1.3.pth
-experiments/pretrained_models/GFPGANv1.4.pth
-experiments/pretrained_models/GPEN.pth
-face_restoration/weights/detection_Resnet50_Final.pth
-face_restoration/weights/parsing_parsenet.pth
+experiments/pretrained_models
+face_restoration/weights
 experiments/onnx

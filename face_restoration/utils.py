@@ -9,6 +9,7 @@ from torchvision.transforms.functional import normalize
 from face_restoration.archs.gfpgan.gfpgan_bilinear_arch import GFPGANBilinear
 from face_restoration.archs.gfpgan.gfpganv1_arch import GFPGANv1
 from face_restoration.archs.gfpgan.gfpganv1_clean_arch import GFPGANv1Clean
+from face_restoration.archs.RestoreFormer.vqvae_arch import VQVAEGANMultiHeadTransformer
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -48,17 +49,17 @@ class Restorer():
                 different_w=True,
                 narrow=1,
                 sft_half=True)
-        elif arch == 'RestoreFormer':
-            from face_restoration.archs.restoreformer_arch import RestoreFormer
-            self.model = RestoreFormer()
         elif arch == 'CodeFormer':
             from face_restoration.archs.codeformer.codeformer_arch import CodeFormer
             self.model = CodeFormer(dim_embd=512, codebook_size=1024, n_head=8, n_layers=9, 
                                             connect_list=['32', '64', '128', '256'])
         elif arch == 'GPEN':
             from face_restoration.archs.gpen.gpen_arch import GPEN
-            self.model = GPEN(size=512,style_dim=512,n_mlp=8,channel_multiplier= 2,narrow = 1,
-)
+            self.model = GPEN(size=512,style_dim=512,n_mlp=8,channel_multiplier= 2,narrow = 1,)
+        elif arch == 'RestoreFormer':
+            self.model = VQVAEGANMultiHeadTransformer(head_size = 8, ex_multi_scale_num = 0)
+        elif arch == 'RestoreFormer++':
+            self.model = VQVAEGANMultiHeadTransformer(head_size = 4, ex_multi_scale_num = 1)
 
 
         # initialize face helper
@@ -78,12 +79,12 @@ class Restorer():
         loadnet = torch.load(model_path)
         if 'params_ema' in loadnet:
             keyname = 'params_ema'
-            self.model.load_state_dict(loadnet[keyname], strict=True)
+            self.model.load_state_dict(loadnet[keyname], strict=False)
         elif 'params' in loadnet:
             keyname = 'params'
-            self.model.load_state_dict(loadnet[keyname], strict=True)
+            self.model.load_state_dict(loadnet[keyname], strict=False)
         else:
-            self.model.load_state_dict(loadnet, strict=True)
+            self.model.load_state_dict(loadnet, strict=False)
         self.model.eval()
         self.model = self.model.to(self.device)
 

@@ -22,7 +22,7 @@ def main():
     parser.add_argument('-o', '--output', type=str, default='results', help='Output folder. Default: results')
     # we use version to select models, which is more user-friendly
     parser.add_argument(
-        '-v', '--version', type=str, default='GFPGANv1.4', help='GFPGAN model version. Option: 1 | 1.2 | 1.3. Default: 1.3')
+        '-v', '--version', type=str, default='GFPGANv1.4', help='model version. Option: gfpgan1.4 | CodeFormer | GPEN')
     parser.add_argument(
         '-s', '--upscale', type=int, default=2, help='The final upsampling scale of the image. Default: 2')
 
@@ -80,7 +80,10 @@ def main():
     else:
         bg_upsampler = None
 
+
+# 
     # ------------------------ set up restorer ------------------------
+    channel_multiplier = 1
     if args.version == 'GFPGANv1.2':
         arch = 'gfpgan_clean'
         channel_multiplier = 2
@@ -105,6 +108,17 @@ def main():
         arch = 'GPEN'
         channel_multiplier = 2
         model_name = 'GPEN'
+    elif args.version == 'RestoreFormer':
+        arch = 'RestoreFormer'
+        model_name = 'RestoreFormer'
+        url = 'https://github.com/wzhouxiff/RestoreFormerPlusPlus/releases/download/v1.0.0/RestoreFormer.ckpt'
+        # self.RF = VQVAEGANMultiHeadTransformer(head_size = 8, ex_multi_scale_num = 0)
+    elif args.version == 'RestoreFormer++':
+        arch = 'RestoreFormer++'
+        model_name = 'RestoreFormer++'
+        url = 'https://github.com/wzhouxiff/RestoreFormerPlusPlus/releases/download/v1.0.0/RestoreFormer++.ckpt'
+        # self.RF = VQVAEGANMultiHeadTransformer(head_size = 4, ex_multi_scale_num = 1)
+    
 
     else:
         raise ValueError(f'Wrong model version {args.version}.')
