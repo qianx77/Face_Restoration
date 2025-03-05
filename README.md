@@ -14,6 +14,7 @@ A list of face restoration papers and codes, can see in [this repository ](https
 
 
 ### Update
+- **2025.03.05**: Add [RestoreFormer](https://github.com/wzhouxiff/RestoreFormerPlusPlus.git)、[RestoreFormer++](https://github.com/wzhouxiff/RestoreFormerPlusPlus.git) inference codes.
 - **2024.11.03**: Add [GFPGAN](https://github.com/TencentARC/GFPGAN.git)、[CodeFromer](https://github.com/sczhou/CodeFormer.git) 、[GPEN](https://github.com/yangxy/GPEN.git) inference codes. 
   
 
