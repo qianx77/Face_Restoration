@@ -5,7 +5,8 @@ from setuptools import find_packages, setup
 import os
 import subprocess
 import time
-
+import torch
+from torch.utils.cpp_extension import BuildExtension, CppExtension, CUDAExtension
 version_file = 'face_restoration/version.py'
 
 
@@ -78,19 +79,64 @@ def get_requirements(filename='requirements.txt'):
         requires = [line.replace('\n', '') for line in f.readlines()]
     return requires
 
+def make_cuda_ext(name, module, sources, sources_cuda=None):
+    if sources_cuda is None:
+        sources_cuda = []
+    define_macros = []
+    extra_compile_args = {'cxx': []}
+
+    if torch.cuda.is_available() or os.getenv('FORCE_CUDA', '0') == '1':
+        define_macros += [('WITH_CUDA', None)]
+        extension = CUDAExtension
+        extra_compile_args['nvcc'] = [
+            '-D__CUDA_NO_HALF_OPERATORS__',
+            '-D__CUDA_NO_HALF_CONVERSIONS__',
+            '-D__CUDA_NO_HALF2_OPERATORS__',
+        ]
+        sources += sources_cuda
+    else:
+        print(f'Compiling {name} without CUDA')
+        extension = CppExtension
+
+    return extension(
+        name=f'{module}.{name}',
+        sources=[os.path.join(*module.split('.'), p) for p in sources],
+        define_macros=define_macros,
+        extra_compile_args=extra_compile_args)
 
 if __name__ == '__main__':
     write_version_py()
+    cuda_ext = os.getenv('CUDA_EXT')  # whether compile cuda ext
+    if cuda_ext == 'True':
+        ext_modules = [
+            make_cuda_ext(
+                name='deform_conv_ext',
+                module='face_restoration.ops.dcn',
+                sources=['src/deform_conv_ext.cpp'],
+                sources_cuda=['src/deform_conv_cuda.cpp', 'src/deform_conv_cuda_kernel.cu']),
+            make_cuda_ext(
+                name='fused_act_ext',
+                module='face_restoration.ops.fused_act',
+                sources=['src/fused_bias_act.cpp'],
+                sources_cuda=['src/fused_bias_act_kernel.cu']),
+            make_cuda_ext(
+                name='upfirdn2d_ext',
+                module='face_restoration.ops.upfirdn2d',
+                sources=['src/upfirdn2d.cpp'],
+                sources_cuda=['src/upfirdn2d_kernel.cu']),
+        ]
+    else:
+        ext_modules = []
     setup(
         name='face_restoration',
         version=get_version(),
         description='Face Restoration',
         long_description=readme(),
         long_description_content_type='text/markdown',
-        author='Ruiqian Ye',
-        author_email='yeruiqian@stu.xmu.edu.cn',
+        author='qianx',
+        author_email='qianx77@126.com',
         keywords='computer vision, pytorch, face restoration, gfpgan ,gpen, codeformer',
-        url='https://github.com/yeruiqian',
+        url='https://github.com/qianx77',
         include_package_data=True,
         packages=find_packages(exclude=('options', 'datasets', 'experiments', 'results', 'tb_logger', 'wandb')),
         classifiers=[

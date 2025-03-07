@@ -62,7 +62,10 @@ def main(folders, method_names, images_per_row=3, output_folder='output'):
 
 if __name__ == '__main__':
     # 例子：输入不同去噪方法的文件夹和名称
-    folders = [r"inputs\cropped_faces",r'results\gfpgan1.4\restored_imgs', r'results\CodeFormer\restored_imgs', r'results\GPEN\restored_imgs',r'results\RestoreFormer\restored_imgs',r'results\RestoreFormer++\restored_imgs']
-    method_names = ['input', 'GFPGANv1.4', 'CodeFormer','GPEN','RestoreFormer','RestoreFormer++']
-    images_per_row = 3  # 一行展示多少张图片
+    folders = [r"inputs\cropped_faces",r'results\gfpgan1.4\restored_imgs', \
+               r'results\CodeFormer\restored_imgs', r'results\GPEN\restored_imgs',\
+                r'results\RestoreFormer\restored_imgs',r'results\RestoreFormer++\restored_imgs'\
+                    ,r'results\VQFRv2\restored_imgs']
+    method_names = ['input', 'GFPGANv1.4', 'CodeFormer','GPEN','RestoreFormer','RestoreFormer++','VQFRv2']
+    images_per_row = 4  # 一行展示多少张图片
     main(folders, method_names, images_per_row,"assets")

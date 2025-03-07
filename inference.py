@@ -6,7 +6,7 @@ import os
 import torch
 from basicsr.utils import imwrite
 
-from face_restoration import Restorer
+from face_restoration.infer_utils import Restorer
 
 
 def main():
@@ -118,7 +118,10 @@ def main():
         model_name = 'RestoreFormer++'
         url = 'https://github.com/wzhouxiff/RestoreFormerPlusPlus/releases/download/v1.0.0/RestoreFormer++.ckpt'
         # self.RF = VQVAEGANMultiHeadTransformer(head_size = 4, ex_multi_scale_num = 1)
-    
+    elif args.version == 'VQFRv2':
+        arch = 'VQFRv2'
+        model_name = 'VQFR_v2'
+        url = ''
 
     else:
         raise ValueError(f'Wrong model version {args.version}.')

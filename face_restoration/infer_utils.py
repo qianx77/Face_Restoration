@@ -60,7 +60,28 @@ class Restorer():
             self.model = VQVAEGANMultiHeadTransformer(head_size = 8, ex_multi_scale_num = 0)
         elif arch == 'RestoreFormer++':
             self.model = VQVAEGANMultiHeadTransformer(head_size = 4, ex_multi_scale_num = 1)
-
+        elif arch =="VQFRv2":
+            from face_restoration.archs.vqfr.vqfrv2_arch import VQFRv2
+            self.model = VQFRv2(
+                base_channels=64,
+                channel_multipliers=[1, 2, 2, 4, 4, 8],
+                num_enc_blocks=2,
+                use_enc_attention=True,
+                num_dec_blocks=2,
+                use_dec_attention=True,
+                code_dim=256,
+                inpfeat_dim=32,
+                align_opt={
+                    'cond_channels': 32,
+                    'deformable_groups': 4
+                },
+                code_selection_mode='Predict',  # Predict/Nearest
+                quantizer_opt={
+                    'type': 'L2VectorQuantizer',
+                    'num_code': 1024,
+                    'code_dim': 256,
+                    'spatial_size': [16, 16]
+                })
 
         # initialize face helper
         self.face_helper = FaceRestoreHelper(

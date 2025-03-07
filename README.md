@@ -8,12 +8,14 @@ A list of face restoration papers and codes, can see in [this repository ](https
 |:---:|:----:|:----:|:----:|
 |2021|CVPR|GFPGAN|✔|
 |2021|CVPR|GPEN|✔|
+|2022|NeurIPS|CodeFormer|✔|
 |2022|CVPR|RestoreFormer|✔|
-|2022|ECCV|VQFR||
+|2022|ECCV|VQFR|✔|
 |2023|TPAMI|RestoreFormer++|✔|
 
 
 ### Update
+- **2025.03.07**: Add [VQFR](https://github.com/TencentARC/VQFR)
 - **2025.03.05**: Add [RestoreFormer](https://github.com/wzhouxiff/RestoreFormerPlusPlus.git)、[RestoreFormer++](https://github.com/wzhouxiff/RestoreFormerPlusPlus.git) inference codes.
 - **2024.11.03**: Add [GFPGAN](https://github.com/TencentARC/GFPGAN.git)、[CodeFromer](https://github.com/sczhou/CodeFormer.git) 、[GPEN](https://github.com/yangxy/GPEN.git) inference codes. 
   
@@ -78,10 +80,10 @@ Download the weights and put them in ```experiments/pretrained_models```
 ```
 
 ### Inference
-Method including GPEN、GFPGAN1.4、CodeFormer、RestoreFormer、RestoreFormer++：
+Method including GPEN、GFPGAN1.4、CodeFormer、RestoreFormer、RestoreFormer++、VQFRv2：
 
 ```bash
-python inference.py -i inputs/cropped_faces -o results/GPEN -v [method] -s 1
+python inference.py -i inputs/cropped_faces -o results/out -v [method] -s 1
 ```
 
 ```console
@@ -90,7 +92,7 @@ Usage: python inference_gfpgan.py -i inputs/whole_imgs -o results -v 1.3 -s 2 [o
   -h                   show this help
   -i input             Input image or folder. Default: inputs/cropped_faces
   -o output            Output folder. Default: results
-  -v version           Different model. Option: GFPGANv1.4,GPEN,CodeFormer,RestoreFormer,RestoreFormer++. Default: GFPGANv1.4
+  -v version           Different model. Option: GFPGANv1.4,GPEN,CodeFormer,RestoreFormer,RestoreFormer++,VQFRv2：. Default: GFPGANv1.4
   -s upscale           The final upsampling scale of the image. Default: 2
   -bg_upsampler        background upsampler. Default: realesrgan
   -bg_tile             Tile size for background sampler, 0 for no tile during testing. Default: 400
@@ -102,5 +104,5 @@ Usage: python inference_gfpgan.py -i inputs/whole_imgs -o results -v 1.3 -s 2 [o
 
 ### Acknowledgement
 
-This project is based on [BasicSR](https://github.com/XPixelGroup/BasicSR). Codes are brought from [GFPGAN](https://github.com/TencentARC/GFPGAN.git)、[CodeFromer](https://github.com/sczhou/CodeFormer.git) 、[GPEN](https://github.com/yangxy/GPEN.git)、[RestoreFormer++](https://github.com/wzhouxiff/RestoreFormerPlusPlus). Thanks for their awesome works.
+This project is based on [BasicSR](https://github.com/XPixelGroup/BasicSR). Codes are brought from [GFPGAN](https://github.com/TencentARC/GFPGAN.git)、[CodeFromer](https://github.com/sczhou/CodeFormer.git) 、[GPEN](https://github.com/yangxy/GPEN.git)、[RestoreFormer++](https://github.com/wzhouxiff/RestoreFormerPlusPlus)、[VQFR](https://github.com/TencentARC/VQFR). Thanks for their awesome works.
 
